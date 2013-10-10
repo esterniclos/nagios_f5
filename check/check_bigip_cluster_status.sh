@@ -45,7 +45,7 @@ while getopts "H:C:h" FLAG; do
 
 
 # log file:
-printf "ARGS: $@\n" >> /var/log/nagios/nagios.log ;
+# printf "ARGS: $@ \n" >> /var/log/nagios/nagios.log ;
 
 
 # Get data:
@@ -56,7 +56,7 @@ DATA=$(snmpget -v 2c -c $community $host .1.3.6.1.4.1.3375.2.1.14.3.1.0)
 # Set status & return code:
 status="OK" && return_code=$OK
 
-IS_ACTIVE=$(echo $DATA | grep -i "active" wc -l)
+IS_ACTIVE=$(echo $DATA | grep -i "active" | wc -l)
 [[ $IS_ACTIVE -eq 0 ]] && status="UNKNOWN" && return_code=$UNKNOWN
 
 

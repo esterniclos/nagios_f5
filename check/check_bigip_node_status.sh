@@ -48,7 +48,7 @@ while getopts "h:p:n:P:" FLAG; do
 
 
 
-printf "ARGS: $@\n" >> /var/log/nagios/nagios.log ;
+# printf "ARGS: $@ \n" >> /var/log/nagios/nagios.log ;
 
 
 
