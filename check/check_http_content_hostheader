@@ -1,5 +1,13 @@
 #!/usr/bin/perl
 
+#
+# # check_http_content_hostheader
+#
+# Checks http or https page, and returns if certain string is contained.
+#
+#
+# Based on:
+#
 #------------------------------------------------------------------------------
 # check_http_content
 # 	retrieve an http/s url and checks its content for a given expression
@@ -40,6 +48,9 @@ use constant EXIT_CRITICAL	=> 2;
 use constant EXIT_UNKNOWN	=> 3;
 
 
+# To enable debug, debug = 1
+use constant DEBUG => 0
+
 # parse cmd opts
 my %opts;
 getopts('vU:t:m:h:', \%opts);
@@ -68,9 +79,12 @@ if ($new_host_header) {
 my $response = $ua->get($opts{U});
 
 # debug
-open (FILE, ">> /var/log/nagios/nagios.log");
-print FILE $opts{U}," ",$opts{m}," ",$opts{h},"\n";
-    close (FILE);
+
+if ( $debug == 1) {
+ open (FILE, ">> /var/log/nagios/nagios.log");
+ print FILE $opts{U}," ",$opts{m}," ",$opts{h},"\n";
+ close (FILE);
+}
 
 
 
