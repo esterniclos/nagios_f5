@@ -80,7 +80,7 @@ my $response = $ua->get($opts{U});
 
 # debug
 
-if ( $debug == 1) {
+if ( $DEBUG == 1) {
  open (FILE, ">> /var/log/nagios/nagios.log");
  print FILE $opts{U}," ",$opts{m}," ",$opts{h},"\n";
  close (FILE);
