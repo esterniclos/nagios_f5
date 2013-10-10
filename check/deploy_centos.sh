@@ -12,7 +12,7 @@ NAGIOSDIR=/tmp
 
 print_usage(){
         echo -e "\n" \
-                "usage: $0 check_list " \n
+                "usage: $0 check_list  \n "\
                 "\n" && exit 1
         }
 
