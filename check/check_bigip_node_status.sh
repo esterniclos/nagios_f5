@@ -55,6 +55,9 @@ while getopts "h:p:n:P:" FLAG; do
 # Get data:
 # snmpwalk  -v 2c -c $community $host .1.3.6.1.4.1.3375.2.2.5.6.2.1.6 
 DATA=$(snmpwalk  -v 2c -c $community $host .1.3.6.1.4.1.3375.2.2.5.6.2.1.6 | grep  -i "$POOL" | grep -i "$NODE" )
+RES=$?
+
+
 
 # echo $DATA
 
@@ -66,6 +69,10 @@ IS_ENABLED=$(echo $DATA | grep -i "enabled(" | wc -l)
 status="OK" && return_code=$OK
 
 [[ $IS_ENABLED -eq 0 ]] && status="CRITICAL" && return_code=$CRITICAL
+
+# Critical host not found:
+[[ $RES -eq 1 ]] && status="CRITICAL" && return_code=$CRITICAL
+
 
 
 
