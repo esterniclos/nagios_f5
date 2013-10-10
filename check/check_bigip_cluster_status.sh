@@ -49,15 +49,27 @@ while getopts "H:C:h" FLAG; do
 
 
 # Get data:
+DATA=$(snmpget -v 2c -c $community $host .1.3.6.1.4.1.3375.2.1.14.3.1.0 2> /dev/null)
+RES=$?
 
-DATA=$(snmpget -v 2c -c $community $host .1.3.6.1.4.1.3375.2.1.14.3.1.0)
+
+# echo "return value $? return string: $DATA"
 
 
 # Set status & return code:
-status="OK" && return_code=$OK
 
+# DEFAULT: OK:
+status="OK" && return_code=$OK
+check_info=$(echo $host $DATA | cut -d' ' -f1,5)
+
+# Unknown if it is standby node:
 IS_ACTIVE=$(echo $DATA | grep -i "active" | wc -l)
 [[ $IS_ACTIVE -eq 0 ]] && status="UNKNOWN" && return_code=$UNKNOWN
+
+# Critical host not found:
+[[ $RES -eq 1 ]] && status="CRITICAL" && return_code=$CRITICAL
+
+
 
 
 #
@@ -66,9 +78,10 @@ IS_ACTIVE=$(echo $DATA | grep -i "active" | wc -l)
 check_status=$(echo $service $status)
 
 #
-# Check info:
+# Check_info
 #
 check_info=$(echo $host $DATA | cut -d' ' -f1,5)
+[[ $RES -eq 1 ]] && check_info="$host not found"
 
 
 #
