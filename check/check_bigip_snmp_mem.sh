@@ -1,5 +1,20 @@
 #!/bin/bash
-
+#
+#
+# OIDS used: 
+#       .1.3.6.1.4.1.3375.2.1.1.2.21.28.0 sysGlobalTmmStatMemoryUsedKb
+#	.1.3.6.1.4.1.3375.2.1.1.2.21.29 sysGlobalTmmStatMemoryTotalKb
+#
+# Requires F5-Mibs in nagios
+# and snmp.conf:
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-APM-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-COMMON-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-GLOBAL-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-LOCAL-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-SYSTEM-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-BIGIP-WAM-MIB.txt
+# mibfile /usr/share/snmp/mibs/F5-EM-MIB.txt
+# 
 
 service="BIGIPMEM"
 
@@ -74,6 +89,8 @@ check_status=$(echo $service $status)
 #
 # Check info:
 #
+
+
 check_info=$(printf "Used_percentage=%s%% Used=%sM Available=%sM" $used_perc $used_mem  $available_mem)
 
 #
